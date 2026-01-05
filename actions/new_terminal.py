@@ -1,6 +1,7 @@
 # Import StreamController modules
 import os
 from src.backend.PluginManager.ActionBase import ActionBase
+from .vs_client import run_vscode
 
 class NewTerminal(ActionBase):
     def __init__(self, *args, **kwargs):
@@ -16,3 +17,4 @@ class NewTerminal(ActionBase):
     def on_key_down(self):
         self.counter += 1
         self.set_center_label(str(self.counter))
+        run_vscode("workbench.action.terminal.new")

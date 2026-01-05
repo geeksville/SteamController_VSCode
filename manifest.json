@@ -10,5 +10,5 @@
     },
     "short-descriptions": {
         "en_US": "A plugin to control Visual Studio Code from your StreamController device."
-    },    
+    }    
 }
