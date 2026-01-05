@@ -1,6 +1,14 @@
 {
-    "version": "",
+    "version": "1.0.0",
     "thumbnail": "",
-    "id": "",
-    "name": ""
+    "id": "com_geeksville_vscode",
+    "name": "StreamController VSCode",
+    "author": "kevinh@geeksville.com",
+    "github": "https://github.com/geeksville/SteamController_VSCode",
+    "descriptions": {
+        "en_US": "A plugin to control Visual Studio Code from your StreamController device.  Install https://marketplace.visualstudio.com/items?itemName=eliostruyf.vscode-remote-control inside of VSCode to use."
+    },
+    "short-descriptions": {
+        "en_US": "A plugin to control Visual Studio Code from your StreamController device."
+    },    
 }

@@ -1,9 +1,9 @@
 {
     "generic": {
-        "copyright": "",
-        "original-url": "",
-        "license": "",
-        "license-url": "",
-        "description": ""
+        "copyright": "2026 Kevin Hester, kevinh@geeksville.com",
+        "original-url": "https://github.com/geeksville/SteamController_VSCode",
+        "license": "GPL v3",
+        "license-url": "https://www.gnu.org/licenses/gpl-3.0.en.html",
+        "description": "A StreamController plugin to integrate with Visual Studio Code.",
     }
 }
