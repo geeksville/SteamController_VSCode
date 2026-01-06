@@ -61,34 +61,44 @@ class VSCodeAction(ActionBase):
         settings["port"] = int(port.get_value())
         self.set_settings(settings)        
 
-class NewTerminal(VSCodeAction):
+class VSMisc(VSCodeAction):
+    def on_ready(self) -> None:
+        super().on_ready()
+        self.set_background_color([0x42, 0xa2, 0x32])  # Green background
+
+class VSDebug(VSCodeAction):
+    def on_ready(self) -> None:
+        super().on_ready()
+        self.set_background_color([0x4d, 0x1e, 0x89])  # Purple background
+
+class NewTerminal(VSMisc):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.terminal.new", "terminal.png", None, *args, **kwargs)
 
-class Restart(VSCodeAction):
+class Restart(VSDebug):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.debug.restart", "replay.png", None, *args, **kwargs)
 
-class Pause(VSCodeAction):
+class Pause(VSDebug):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.debug.pause", "pause.png", None, *args, **kwargs)   
 
-class Continue(VSCodeAction):
+class Continue(VSDebug):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.debug.continue", "resume.png", None, *args, **kwargs)
 
-class StepIn(VSCodeAction):
+class StepIn(VSDebug):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.debug.stepInto", "step_into.png", None, *args, **kwargs)
 
-class StepOut(VSCodeAction):
+class StepOut(VSDebug):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.debug.stepOut", "step_out.png", None, *args, **kwargs)
 
-class StepOver(VSCodeAction):
+class StepOver(VSDebug):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.debug.stepOver", "step_over.png", None, *args, **kwargs)     
 
-class Stop(VSCodeAction):
+class Stop(VSDebug):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.debug.stop", "stop.png", None, *args, **kwargs)                             
