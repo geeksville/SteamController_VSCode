@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "thumbnail": "",
+    "thumbnail": "assets/code.png",
     "id": "com_geeksville_vscode",
     "name": "StreamController VSCode",
     "author": "kevinh@geeksville.com",

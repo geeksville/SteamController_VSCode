@@ -30,17 +30,17 @@ class VSCodeAction(ActionBase):
     def get_config_rows(self) -> list:
         settings = self.settings 
 
-        self.hostname = Adw.EntryRow.new()
-        self.hostname.set_title("Hostname")
-        self.hostname.set_text(settings["hostname"])
-        self.hostname.connect("changed", self.on_hostname_changed)
+        hostname = Adw.EntryRow.new()
+        hostname.set_title("Hostname")
+        hostname.set_text(settings["hostname"])
+        hostname.connect("changed", self.on_hostname_changed)
 
-        self.port_spin = Adw.SpinRow.new_with_range(1, 65535, 1) 
-        self.port_spin.set_title("Port number")
-        self.port_spin.set_value(settings["port"])
-        self.port_spin.connect("changed", self.on_port_changed)
+        port_spin = Adw.SpinRow.new_with_range(1, 65535, 1) 
+        port_spin.set_title("Port number")
+        port_spin.set_value(settings["port"])
+        port_spin.connect("changed", self.on_port_changed)
 
-        return [self.hostname, self.port_spin]
+        return [hostname, port_spin]
 
     @property
     def settings(self):
@@ -74,6 +74,52 @@ class VSDebug(VSCodeAction):
 class NewTerminal(VSMisc):
     def __init__(self, *args, **kwargs):
         super().__init__("workbench.action.terminal.new", "terminal.png", None, *args, **kwargs)
+
+DEFAULT_COMMAND = "workbench.action.terminal.new"
+class CustomCommand(VSMisc):
+    def __init__(self, *args, **kwargs):
+        super().__init__(DEFAULT_COMMAND, "code.png", None, *args, **kwargs)
+
+    def on_key_down(self):
+        settings = self.settings
+        cmd = settings.get("command", DEFAULT_COMMAND)
+        
+        # Parse args from JSON string
+        import json
+        args_str = settings.get("args", "[]")
+        try:
+            cmd_args = json.loads(args_str)
+            if not isinstance(cmd_args, list):
+                cmd_args = None
+        except (json.JSONDecodeError, ValueError):
+            cmd_args = None
+        
+        run_vscode(cmd, cmd_args, hostname=settings["hostname"], port=settings["port"])
+
+    def get_config_rows(self) -> list:
+        settings = self.settings 
+
+        command = Adw.EntryRow.new()
+        command.set_title("Command")
+        command.set_text(settings.get("command", DEFAULT_COMMAND))
+        command.connect("changed", self.on_command_changed)
+
+        args = Adw.EntryRow.new()
+        args.set_title("Args")
+        args.set_text(settings.get("args", "[]"))
+        args.connect("changed", self.on_args_changed)
+
+        return super().get_config_rows() + [command, args]
+
+    def on_command_changed(self, command):
+        settings = self.get_settings()
+        settings["command"] = command.get_text()
+        self.set_settings(settings)
+
+    def on_args_changed(self, args):
+        settings = self.get_settings()
+        settings["args"] = args.get_text()
+        self.set_settings(settings)
 
 class Restart(VSDebug):
     def __init__(self, *args, **kwargs):

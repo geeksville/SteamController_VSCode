@@ -1,6 +1,6 @@
 # Import StreamController modules
 
-from .actions.vs_actions import NewTerminal, Restart, Pause, Continue, StepIn, StepOut, StepOver, Stop
+from .actions.vs_actions import NewTerminal, CustomCommand, Restart, Pause, Continue, StepIn, StepOut, StepOver, Stop
 from src.backend.PluginManager.PluginBase import PluginBase
 from src.backend.PluginManager.ActionHolder import ActionHolder
 
@@ -14,6 +14,12 @@ class PluginTemplate(PluginBase):
             action_base = NewTerminal,
             action_id = "com_geeksville_vscode::NewTerminal", # Change this to your own plugin id
             action_name = "New Terminal",
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = CustomCommand,
+            action_id = "com_geeksville_vscode::CustomCommand",
+            action_name = "Custom Command",
         ))
         self.add_action_holder(ActionHolder(
             plugin_base = self,
