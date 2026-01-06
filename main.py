@@ -1,6 +1,6 @@
 # Import StreamController modules
 
-from .actions.new_terminal import NewTerminal
+from .actions.vs_actions import NewTerminal, Restart, Pause, Continue, StepIn, StepOut, StepOver, Stop
 from src.backend.PluginManager.PluginBase import PluginBase
 from src.backend.PluginManager.ActionHolder import ActionHolder
 
@@ -9,13 +9,55 @@ class PluginTemplate(PluginBase):
         super().__init__()
 
         ## Register actions
-        self.counter_action_holder = ActionHolder(
+        self.add_action_holder(ActionHolder(
             plugin_base = self,
             action_base = NewTerminal,
             action_id = "com_geeksville_vscode::NewTerminal", # Change this to your own plugin id
             action_name = "New Terminal",
-        )
-        self.add_action_holder(self.counter_action_holder)
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = Restart,
+            action_id = "com_geeksville_vscode::Restart", # Change this to your own plugin id
+            action_name = "Restart Debugging",
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = Pause,
+            action_id = "com_geeksville_vscode::Pause",
+            action_name = "Pause Debugging",
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = Continue,
+            action_id = "com_geeksville_vscode::Continue",
+            action_name = "Continue Debugging",
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = StepIn,
+            action_id = "com_geeksville_vscode::StepIn",
+            action_name = "Step Into",
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = StepOut,
+            action_id = "com_geeksville_vscode::StepOut",
+            action_name = "Step Out",
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = StepOver,
+            action_id = "com_geeksville_vscode::StepOver",
+            action_name = "Step Over",
+        ))
+        self.add_action_holder(ActionHolder(
+            plugin_base = self,
+            action_base = Stop,
+            action_id = "com_geeksville_vscode::Stop",
+            action_name = "Stop Debugging",
+        ))
+
 
         # Register plugin
         self.register(

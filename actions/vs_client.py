@@ -34,9 +34,9 @@ def run_vscode(cmd: str, args: list[str] | None = None, hostname: str = "localho
         # Send the JSON message
         ws.send(json.dumps(message))
         
-        # Wait for and return the response
-        response = ws.recv()
-        return response
+        # Wait for and return the response - I don't think this vscode plugin returns anything
+        #response = ws.recv()
+        # return response
     finally:
         ws.close() # context manager not supported
 
