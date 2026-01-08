@@ -67,7 +67,7 @@ class PluginTemplate(PluginBase):
 
         # Register plugin
         self.register(
-            plugin_name = "SteamController VSCode",
+            plugin_name = "VSCode",
             github_repo = "https://github.com/geeksville/SteamController_VSCode",
             plugin_version = "1.0.0",
             app_version = "1.1.1-alpha"

@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "thumbnail": "assets/code.png",
     "id": "com_geeksville_vscode",
-    "name": "StreamController VSCode",
+    "name": "VSCode",
     "author": "kevinh@geeksville.com",
     "github": "https://github.com/geeksville/SteamController_VSCode",
     "descriptions": {
