@@ -1,12 +1,16 @@
 # Import StreamController modules
 
 from .actions.vs_actions import NewTerminal, CustomCommand, Restart, Pause, Continue, StepIn, StepOut, StepOver, Stop
+from .settings import PluginSettings
 from src.backend.PluginManager.PluginBase import PluginBase
 from src.backend.PluginManager.ActionHolder import ActionHolder
 
 class PluginTemplate(PluginBase):
     def __init__(self):
         super().__init__()
+
+        self._settings_manager = PluginSettings(self)
+        self.has_plugin_settings = True
 
         ## Register actions
         self.add_action_holder(ActionHolder(
@@ -72,3 +76,6 @@ class PluginTemplate(PluginBase):
             plugin_version = "1.0.0",
             app_version = "1.1.1-alpha"
         )
+
+    def get_settings_area(self):
+        return self._settings_manager.get_settings_area()        

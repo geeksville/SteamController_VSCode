@@ -27,39 +27,15 @@ class VSCodeAction(ActionBase):
         settings = self.settings
         run_vscode(self.cmd, self.cmd_args, hostname=settings["hostname"], port=settings["port"])
 
-    def get_config_rows(self) -> list:
-        settings = self.settings 
-
-        hostname = Adw.EntryRow.new()
-        hostname.set_title("Hostname")
-        hostname.set_text(settings["hostname"])
-        hostname.connect("changed", self.on_hostname_changed)
-
-        port_spin = Adw.SpinRow.new_with_range(1, 65535, 1) 
-        port_spin.set_title("Port number")
-        port_spin.set_value(settings["port"])
-        port_spin.connect("changed", self.on_port_changed)
-
-        return [hostname, port_spin]
-
     @property
     def settings(self):
+        """Get shared plugin settings (hostname, port) with defaults."""
         s = {
             "hostname": "localhost",
             "port": 3710,
         }
-        s.update(self.get_settings())
+        s.update(self.plugin_base.get_settings())
         return s
-
-    def on_hostname_changed(self, hostname):
-        settings = self.get_settings()
-        settings["hostname"] = hostname.get_text()
-        self.set_settings(settings)
-
-    def on_port_changed(self, port):
-        settings = self.get_settings()
-        settings["port"] = int(port.get_value())
-        self.set_settings(settings)        
 
 class VSMisc(VSCodeAction):
     def on_ready(self) -> None:
@@ -81,7 +57,8 @@ class CustomCommand(VSMisc):
         super().__init__(DEFAULT_COMMAND, "code.png", None, *args, **kwargs)
 
     def on_key_down(self):
-        settings = self.settings
+        # command/args need to come from our per action settings
+        settings = self.get_settings()
         cmd = settings.get("command", DEFAULT_COMMAND)
         
         # Parse args from JSON string
@@ -94,10 +71,11 @@ class CustomCommand(VSMisc):
         except (json.JSONDecodeError, ValueError):
             cmd_args = None
         
-        run_vscode(cmd, cmd_args, hostname=settings["hostname"], port=settings["port"])
+        shared_settings = self.settings
+        run_vscode(cmd, cmd_args, hostname=shared_settings["hostname"], port=shared_settings["port"])
 
     def get_config_rows(self) -> list:
-        settings = self.settings 
+        settings = self.get_settings()
 
         command = Adw.EntryRow.new()
         command.set_title("Command")
@@ -109,7 +87,7 @@ class CustomCommand(VSMisc):
         args.set_text(settings.get("args", "[]"))
         args.connect("changed", self.on_args_changed)
 
-        return super().get_config_rows() + [command, args]
+        return [command, args]
 
     def on_command_changed(self, command):
         settings = self.get_settings()
